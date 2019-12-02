@@ -127,7 +127,17 @@ def main():
 
     info = get_sentences_from_data(text, reduced_data)
 
-    print(info)
+    f = open("/Users/theonlyroy/Desktop/bio.txt", "w+")
+
+    f.write("User Comments:\n\n")
+    for line in info:
+        f.write(line+"\n")
+    
+    f.write("\nURLs:\n\n")
+    for url in urls:
+        f.write(url+"\n")
+    
+    f.close()
 
 if __name__ == "__main__":
     main()
