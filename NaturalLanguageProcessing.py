@@ -1,5 +1,6 @@
 import nltk
 import re
+from collections import Counter
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet, stopwords
 
@@ -48,6 +49,41 @@ def get_url_from_sentence(sentence):
 
         return [sentence, urls]
 
+def get_reduced_data(data):
+    collection =  Counter(data)
+    reducedData = {}
+    junkWords = ["a", "and", "at", "but", "each", "i", "if", "id", "ill", "im", 
+                "in", "it", "cs", "want", "wants", "the", "there", "these", "this",
+                "also", "another", "article", "background", "makes", "many", "may",
+                "mentioned", "might", "study", "subject", "super", "sure", "question",
+                "program", "programs", "doesnt", "dont", "eg", "isnt", "kind", "know",
+                "able", "along", "already", "answer", "basic", "basically", "called", 
+                "cant", "cause", "better", "believe", "even", "exactly", "explain",
+                "find", "follow", "etc", "get", "give", "go", "goes", "video", "way",
+                "would", "youre", "ways", "could", "degree", "enough", "essentially",
+                "help", "huge", "like", "maybe", "means", "much", "need", "really", "said",
+                "see", "think", "though", "well", "since", "lot", "make", "whatever", "try"
+                "talk", "book", "something", "try"]
+    for key in collection:
+        key = key.lower()
+        if(collection[key]>3 and key not in junkWords):
+           reducedData[key] = collection[key]
+    
+    return sorted((reducedData))
+
+def get_sentences_from_data(data, words):
+    sentencesList = []
+    sentences = nltk.sent_tokenize(data)
+
+    for sentence in sentences:
+        sentence, urls = get_url_from_sentence(sentence)
+        sentence = re.sub('[^A-Za-z0-9 ]+', '', sentence)
+
+        if any(word in sentence for word in words):
+            if sentence not in sentencesList:
+                sentencesList.append(sentence)
+    
+    return sentencesList
 
 def natural_language_processing(text): 
     textList = []
@@ -78,14 +114,20 @@ def natural_language_processing(text):
     textList = [word for word in textList if word not in stopWords]
 
     urlsList = list(filter(None, urlsList))
-    print(textList)
+
+    return [textList, urlsList]
+
 
 def main():
     filename = "/Users/theonlyroy/Desktop/Parse Reddit Comments/reddit_comments.txt"
     text = get_text_from_file(filename)
+    data, urls = natural_language_processing(text)
 
-    natural_language_processing(text)
+    reduced_data = get_reduced_data(data)
 
+    info = get_sentences_from_data(text, reduced_data)
+
+    print(info)
 
 if __name__ == "__main__":
     main()
