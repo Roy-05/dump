@@ -3,18 +3,18 @@ import math
 
 def inputChar():
 
-    number = randint(0, 100000)*randint(0, 100000)
-    if(math.sqrt(number) - math.floor(math.sqrt(number)) == 0):
+    number = randint(1, 1000000)*randint(1, 1000000)
+    root = 1/randint(2, 5)
+    if(math.pow(number, root) - math.floor(math.pow(number, root)) == 0):
+        print(f"This number {number} is a perfect {1/root} power")
         return ''
+    else:
+        while(number>127):
+            number = number//randint(2, 10)
+            while(number < 32):
+                number *= randint(2, 10)
 
-    while(number>127):
-        number = number//randint(2, 10)
-
-    while(number<32):
-        number += randint(1, 10)
-
-    return chr(number)
-
+        return chr(number)
 
 
 def inputString():
