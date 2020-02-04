@@ -1,7 +1,20 @@
+from random import randint
+import math
 
 def inputChar():
-    #TODO: rewrite this function
-    return ' '
+
+    number = randint(0, 100000)*randint(0, 100000)
+    if(math.sqrt(number) - math.floor(math.sqrt(number)) == 0):
+        return ''
+
+    while(number>127):
+        number = number//randint(2, 10)
+
+    while(number<32):
+        number += randint(1, 10)
+
+    return chr(number)
+
 
 
 def inputString():
@@ -16,7 +29,7 @@ def testme():
         tcCount += 1
         c = inputChar()
         s = inputString()
-        print("Iteration %d: c = %c, s = %s, state = %d\n" % (tcCount, c, s, state))
+        print("Iteration {0}: c = {1}, s = {2}, state = {3}\n" .format(tcCount, c, s, state))
 
         if (c == '[' and state == 0):
             state = 1
@@ -36,9 +49,10 @@ def testme():
             state = 8
         if (c == ']' and state == 8):
             state = 9
-        if (s == "reset" and state == 9):
+        if (state == 9):
             print("error ")
             break
+
 
 def main():
     testme()
