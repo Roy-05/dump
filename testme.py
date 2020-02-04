@@ -5,7 +5,7 @@ def inputChar():
 
     number = randint(1, 1000000)*randint(1, 1000000)
     root = 1/randint(2, 5)
-    if(math.pow(number, root) - math.floor(math.pow(number, root)) == 0):
+    if(math.pow(number, 0.5) - math.floor(math.pow(number, 0.5)) == 0):
         print(f"This number {number} is a perfect {1/root} power")
         return ''
     else:
@@ -18,8 +18,12 @@ def inputChar():
 
 
 def inputString():
-    #TODO: rewrite this function
-    return ""
+    length = 5
+    s = ''
+    for i in range(length):
+
+        s += chr(randint(97, 122))
+    return s
 
 
 def testme():
