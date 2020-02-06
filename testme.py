@@ -1,29 +1,11 @@
-from random import randint
-import math
+from random import randint, choices
 
 def inputChar():
-
-    number = randint(1, 1000000)*randint(1, 1000000)
-    root = 1/randint(2, 5)
-    if(math.pow(number, 0.5) - math.floor(math.pow(number, 0.5)) == 0):
-        print(f"This number {number} is a perfect {1/root} power")
-        return ''
-    else:
-        while(number>127):
-            number = number//randint(2, 10)
-            while(number < 32):
-                number *= randint(2, 10)
-
-        return chr(number)
-
+    return chr(randint(32, 126))
 
 def inputString():
-    length = 5
-    s = ''
-    for i in range(length):
-
-        s += chr(randint(97, 122))
-    return s
+    letters = [chr(c) for c in range(97,122)]
+    return "".join(choices(letters, k = 5))
 
 
 def testme():
@@ -39,7 +21,7 @@ def testme():
             state = 1
         if (c == '(' and state == 1):
             state = 2
-        if (c == '' and state == 2):
+        if (c == '{' and state == 2):
             state = 3
         if (c == ' ' and state == 3):
             state = 4
@@ -47,20 +29,20 @@ def testme():
             state = 5
         if (c == 'x' and state == 5):
             state = 6
-        if (c == '' and state == 6):
+        if (c == '}' and state == 6):
             state = 7
         if (c == ')' and state == 7):
             state = 8
         if (c == ']' and state == 8):
             state = 9
-        if (state == 9):
+        if (s == "reset" and state == 9):
             print("error ")
             break
 
 
 def main():
     testme()
-
+    # inputString()
 
 if __name__ == '__main__':
     main()
