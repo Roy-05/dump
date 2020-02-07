@@ -1,11 +1,13 @@
 from random import randint, choices
 
+
 def inputChar():
     return chr(randint(32, 126))
 
+
 def inputString():
-    letters = [chr(c) for c in range(97,122)]
-    return "".join(choices(letters, k = 5))
+    letters = [chr(c) for c in range(97, 122)]
+    return "".join(choices(letters, k=5))
 
 
 def testme():
@@ -42,7 +44,7 @@ def testme():
 
 def main():
     testme()
-    # inputString()
+
 
 if __name__ == '__main__':
     main()
