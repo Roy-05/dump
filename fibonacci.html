@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Fibonacci Calculator</title>
+    </head>
+    <body>
+        <h1>
+            Calculate the nth Fibonacci Number: 
+        </h1>
+        <div class="container">
+            <div>
+                <label>Use Iterative Algorithm:</label>
+                <input type="textbox" id="ItInput">
+                <button type="button" id="ItFiboButton">Calculate</button>
+            </div>
+            <div>
+                <label>Use Recursive Algorithm:</label>
+                <input type="textbox" id="RecurInput">
+                <button type="button" id="RecurFiboButton">Calculate</button>
+            </div>
+            <div>
+                <label>Use Memoization Algorithm:</label>
+                <input type="textbox" id="MemoInput">
+                <button type="button" id="MemoFiboButton">Calculate</button>
+            </div>
+            <div>
+                <label>Use Memoization Algorithm:</label>
+                <input type="textbox" id="RecursiveInput">
+                <button type="button" id="RecursiveFiboButton">Calculate</button>
+            </div>
+            <div class="LogOutput">
+                <br>Open Console to Compare Execution times:
+            </div>
+        </div>
+        <script>
+            //Solve the Fibonacci Problem using Iteration, Recursion and Memoization:
+
+            
+            //Simplest Solution and runs at linear time
+            function IterativeFibo(index){
+                index = Number(index);
+                if (isNaN(index)) throw "Input Value is Not a Number";
+                if (index < 0) throw "Input Value is Negative";
+
+                if(index<=1)
+                    return 1;
+                else {   
+                    let a=1,
+                        b=1,
+                        c=1;
+                    for(let i=2; i<=index; i+=1){
+                        c = a+b;
+                        a = b;
+                        b = c;
+                    }
+                    return c;
+                }
+            };
+            document.getElementById("ItFiboButton").addEventListener('click',()=>{
+                let index = document.getElementById("ItInput").value;
+                console.log("Execution time for Iteration");
+                console.time();
+                document.querySelector(".LogOutput").innerHTML+= `<br>[Iteration Algorithm] Element #${index}: ${IterativeFibo(index)}`;
+                console.timeEnd();
+            });
+            
+
+            //runtime increases exponentially with bigger values
+            function RecursiveFibo(index){
+                index = Number(index);
+                if (isNaN(index)) throw "Input Value is Not a Number";
+                if (index < 0) throw "Input Value is Negative";
+
+                if (index<=1) 
+                {
+                    return 1;
+                } 
+                else 
+                {
+                    return RecursiveFibo(index-1)+RecursiveFibo(index-2);
+                }
+            };
+            document.getElementById("RecurFiboButton").addEventListener('click',()=>{
+                let index = document.getElementById("RecurInput").value;
+                console.log("Execution time for Recursion");
+                console.time();
+                document.querySelector(".LogOutput").innerHTML+= `<br>[Recursive Algorithm] Element #${index}: ${RecursiveFibo(index)}`;
+                console.timeEnd();
+            });
+
+
+            //store element-index pairs, eliminating the need to re-compute those values for future stack calls
+            function MemoizeFibo(index, map) {
+                index = Number(index);
+                if (isNaN(index)) throw "Input Value is Not a Number";
+                if (index < 0) throw "Input Value is Negative";
+                
+                map = map || {};
+
+                if (index <= 1) {
+                    return 1;
+                }
+                else if (map[index]) {
+                    return map[index];
+                }
+                return map[index] = MemoizeFibo(index - 1, map) + MemoizeFibo(index - 2, map);
+            };
+            document.getElementById("MemoFiboButton").addEventListener('click',()=>{
+                let index = document.getElementById("MemoInput").value;
+                console.log("Execution time for Memoization");
+                console.time();
+                document.querySelector(".LogOutput").innerHTML+= `<br>[Memoization Algorithm] Element #${index}: ${MemoizeFibo(index)}`;
+                console.timeEnd();
+            });
+
+            function RecurseFibo(n, a, b){
+                n = Number(n);
+                if(n <= 1) {
+                    return 1
+                }
+                else {
+                    return a + RecurseFibo(n-1, b, a+b)
+                }
+            };
+            document.getElementById("RecursiveFiboButton").addEventListener('click',()=>{
+                let index = document.getElementById("RecursiveInput").value;
+                console.log("Execution time for Recurse");
+                console.time();
+                document.querySelector(".LogOutput").innerHTML+= `<br>[Recursive Algorithm] Element #${index}: ${RecurseFibo(index, 1, 1)}`;
+                console.timeEnd();
+            });
+        </script>
+    </body>
+</html>
